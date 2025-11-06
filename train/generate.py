@@ -63,7 +63,7 @@ def extract_code(text: list):
 
 
 # 读取数据
-df = pd.read_json("pie-test-sug.jsonl",lines=True)
+df = pd.read_json("test-sug.jsonl",lines=True)
 print(df.shape)
 
 input_template = Template("Input code:\n$input\nSuggestions:\n$suggestions\nOutput: ```python\n {{optimized code}} \n``` <|EOS|>")
@@ -78,7 +78,8 @@ torch.cuda.empty_cache()
 
 def infer(row):
     input = row['slow_code_col']
-    suggestions = ast.literal_eval(row['suggestion'])
+    # suggestions = ast.literal_eval(row['suggestion'])
+    suggestions = row['suggestion']
     suggestions = "\n".join(
         [f"{index + 1}. Applicability:{suggestion['distance']} Rate:{suggestion['rate']}\n{suggestion['text']}" for
          index, suggestion in enumerate(suggestions)])
@@ -114,6 +115,6 @@ def infer(row):
 
 df['model_generated_potentially_faster_code_col'] = df.progress_apply(infer, axis=1)
 torch.cuda.empty_cache()
-df.to_json("test-my-qw.jsonl",lines=True,orient='records')
+df.to_json("test-qw2.5-7b-i-fp.jsonl",lines=True,orient='records')
 empty_rows = df[df['model_generated_potentially_faster_code_col'] == '']
 print(empty_rows.shape)
