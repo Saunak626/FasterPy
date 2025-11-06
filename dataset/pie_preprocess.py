@@ -26,12 +26,11 @@ with open(input_file, 'r', encoding='utf-8') as infile, open(output_file, 'w', e
         new_item = {field: item[field] for field in fields_to_keep if field in item}
 
         # rate
-        if "improvement_frac" in item:
-            try:
-                new_item["rate"] = float(item["improvement_frac"]) / 100
-                new_item["diff"] = diff_text
-            except ValueError:
-                new_item["rate"] = None  # 无法转为float时设为None
+        try:
+            new_item["rate"] = float(item["cpu_time_v0"]) / float(item["cpu_time_v1"])
+            new_item["diff"] = diff_text
+        except ValueError:
+            new_item["rate"] = None  # 无法转为float时设为None
 
         # 写入新数据
         outfile.write(json.dumps(new_item, ensure_ascii=True) + '\n')
