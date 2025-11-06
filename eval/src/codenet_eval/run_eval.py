@@ -433,16 +433,10 @@ def print_summary(cfg, merged, results, gen_col: str):
 
     # 优化成功：模型生成代码比原 slow 更快
     optimized_samples = valid_samples[
-        valid_samples[f"{gen_col}_time_mean"] < valid_samples["input_time_mean"]
+        valid_samples[f"{gen_col}_time_mean"] *1.1  < valid_samples["input_time_mean"]
         ]
     print(f"Optimized samples (faster than slow): {len(optimized_samples)}")
 
-    # %OPT = 优化成功 / 有效样本数
-    if len(valid_samples) > 0:
-        percent_opt = len(optimized_samples) / len(valid_samples)
-        print(f"%OPT : {percent_opt:.4f}")
-    else:
-        print("%OPT : N/A (no valid samples)")
 
 
 def mean_std(df, col) -> str:
