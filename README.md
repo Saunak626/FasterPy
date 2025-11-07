@@ -1,6 +1,7 @@
 <div align="center">
-  <h1 align="center">FasterPy: An LLM-based Code Execution Efficiency Optimization Framework</h1>
+  <h1 align="center"><font style="font-family: Consolas;">FasterPy</font>: An LLM-based Code Execution Efficiency Optimization Framework</h1>
 </div>
+
 
 <div align="center">
     <a href="https://github.com/WuYue22/FasterPy">
@@ -15,8 +16,8 @@
     <hr>
 </div>
 
-# FasterPy
-**FasterPy** is a framework designed to optimize the code execution efficiency of LLMs-generated python code.
+# <font style="font-family: Consolas;">FasterPy</font>
+**<font style="font-family: Consolas;">FasterPy</font>** is a framework designed to optimize the code execution efficiency of LLMs-generated python code.
 By combining retrieval-augmented generation (RAG) with low-rank fine-tuning, 
 the framework adaptively enhances large language models (LLMs) for code efficiency optimization tasks.
 
@@ -32,7 +33,7 @@ the framework adaptively enhances large language models (LLMs) for code efficien
 ## 🚀 Quick Start
 
 ### Environment Setup
-Follow these steps to set up the environment for FasterPy:
+Follow these steps to set up the environment for <font style="font-family: Consolas;">FasterPy</font>:
 ```shell
 conda create -n fsp python=3.11
 conda activate fsp
@@ -86,12 +87,12 @@ Then run the following command to fine-tune the model:
 py train/train.py
 ```
 
-### Start FasterPy
+### Start <font style="font-family: Consolas;">FasterPy</font>
 On the first run, execute the following command to import the knowledge base into the vector database:
 ```shell
 py knowledge-base/import_data.py
 ```
-Run the following command to start FasterPy:
+Run the following command to start <font style="font-family: Consolas;">FasterPy</font>:
 ```shell
 py pipeline/main.py [-modelpath ./my_model]
 ```
@@ -161,9 +162,9 @@ cpu_number: 1
 python src/codenet_eval/run_eval.py --eval_config eval/sample_eval_config.yaml
 ```
 
-### Baseline Models
+### Benchmarks
 
-To evaluate the performance of FasterPy, we benchmarked it across several representative large language models (LLMs) of different parameter scales:
+To evaluate the performance of <font style="font-family: Consolas;">FasterPy</font>, we benchmarked it across several representative large language models (LLMs) of different parameter scales:
 
 - **DeepSeek-Coder-6.7B-Instruct**: a medium-scale coding-specific model fine-tuned for code generation and reasoning tasks.
 
@@ -175,7 +176,7 @@ To evaluate the performance of FasterPy, we benchmarked it across several repres
 
 - **Codex (GPT-5-Codex)**: a large-scale coding-specific LLM, demonstrating strong capabilities in code understanding and generation across multiple programming languages.
 
-These models collectively provide a balanced benchmark covering both open-source and proprietary, medium and large-scale LLMs, enabling a robust evaluation of FasterPy’s optimization effectiveness.
+These models collectively provide a balanced benchmark covering both open-source and proprietary, medium and large-scale LLMs, enabling a robust evaluation of <font style="font-family: Consolas;">FasterPy</font>’s optimization effectiveness.
 
 ------
 ## 📋 Repository Structure
