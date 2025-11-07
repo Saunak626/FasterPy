@@ -132,6 +132,7 @@ We modified the evaluation code from [madaan/pie-perf: Training language models 
 inputs_outputs_basepath/{problem_id}/{inputs, outputs}.txt
 ```
 where `{inputs, outputs}.txt` are the input and output files for the problem with id `problem_id`. The input and output are plain text files. Each program is fed `inputs.txt` and the output is compared with `outputs.txt`.
+
 4. In addition to these, we need to provide some information about the run. Specifically, the number of times each program should be run, the number of programs to evaluate, the timeout, and so on.
 
 We wrap all of this information is provided in a yaml file `sample_eval_config.yaml`. Here is an example:
@@ -157,6 +158,21 @@ cpu_number: 1
 ```bash
 python src/codenet_eval/run_eval.py --eval_config eval/sample_eval_config.yaml
 ```
+
+6. Baseline Models
+
+To evaluate the performance of FasterPy, we benchmarked it across several representative large language models (LLMs) of different parameter scales:
+
+- **DeepSeek-Coder-6.7B-Instruct**: a medium-scale coding-specific model fine-tuned for code generation and reasoning tasks.
+
+- **Qwen2.5-Coder-7B-Instruct**: a coding-specialized version of the Qwen2.5 series, optimized for program understanding and generation.
+
+- **Qwen-Max-Latest**: a large-scale mixture-of-experts (MoE) model representing high-end commercial performance.
+
+- **Codex (GPT-5-Codex)**: a large-scale coding-specific LLM, demonstrating strong capabilities in code understanding and generation across multiple programming languages.
+
+These models collectively provide a balanced benchmark covering both open-source and proprietary, medium and large-scale LLMs, enabling a robust evaluation of FasterPy’s optimization effectiveness.
+
 ------
 ## 📋 Repository Structure
 Here we explain each part of this repo.
