@@ -167,6 +167,8 @@ To evaluate the performance of FasterPy, we benchmarked it across several repres
 
 - **Qwen2.5-Coder-7B-Instruct**: a coding-specialized version of the Qwen2.5 series, optimized for program understanding and generation.
 
+- **CodeLlama-7B-Instruct**: an open-source, instruction-tuned model from Meta designed for multilingual code generation and completion.
+
 - **Qwen-Max-Latest**: a large-scale mixture-of-experts (MoE) model representing high-end commercial performance.
 
 - **Codex (GPT-5-Codex)**: a large-scale coding-specific LLM, demonstrating strong capabilities in code understanding and generation across multiple programming languages.
