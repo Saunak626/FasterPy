@@ -39,7 +39,7 @@ conda activate fsp
 pip install -r requirements.txt
 ```
 ### Data Preparation
-**1.Knowledge Base**
+**1. Knowledge Base**
 
 We provide the dataset **OD-base.jsonl**, which is required for the optimization suggestions knowledge base, at
 [this url](https://huggingface.co/datasets/YueWu2/code-opt-knowledge/tree/main).
@@ -61,13 +61,13 @@ Run `py dataset/package.py` to convert a dataset containing the `diff` field int
 and then run `py dataset/generate_summary.py` to batch-generate code optimization summaries (`summary`).
 Run `py dataset/vector_generate.py` to batch embed the code in the `input` field into vectors and save them to the `vector` field.
 
-**2.Train dataset**
+**2. Train dataset**
 
 We provide the training dataset **train\_data\_msg.jsonl** in the `dataset/train-data` directory for performing low-rank fine-tuning on the LLMs.
 You can also build it yourself, but please ensure it is in **message** format.
 We provide the script `convert_to_message.py` to convert a dataset containing the `input`, `target`, and `suggestions` fields into **message** format.
 
-**3.Evaluation Dataset**
+**3. Evaluation Dataset**
 
 We adopt the official test split of the PIE dataset (Python subset) as the basis for model evaluation.
 It contains fields: `problem\_id`, `slow\_code\_col`, `reference\_code\_col` (manual high-performance solution), and `model\_generated\_potentially\_faster\_code\_col` (an empty field intended to store the model-generated result).
@@ -115,9 +115,11 @@ The generated optimized code will be filled into the `model_generated_potentiall
 
 ------
 ## 📊 Evaluation
+### Evaluation Setup and Execution
+
 We modified the evaluation code from [madaan/pie-perf: Training language models to make programs faster](https://github.com/madaan/pie-perf), and the usage is similar.
 
-1. Save the generations in a jsonl file with the following fields:
+**Step 1.** Save the generations in a jsonl file with the following fields:
 ```js
 {
     "slow_code_col": "the column name for the input code",
@@ -125,15 +127,15 @@ We modified the evaluation code from [madaan/pie-perf: Training language models 
 }
 ```
 
-2. Next, we need to provide the path to the file with some metadata. We call it the `reference_file` but providing references are optional. The main purpose of this file is to provide information like the language of the code, the problem id, etc. The file should have `slow_code_col` (same as the generations file) and `problem_id`. We join the generations file and the references file on the `slow_code_col` to get the problem id.
+**Step 2.** Next, we need to provide the path to the file with some metadata. We call it the `reference_file` but providing references are optional. The main purpose of this file is to provide information like the language of the code, the problem id, etc. The file should have `slow_code_col` (same as the generations file) and `problem_id`. We join the generations file and the references file on the `slow_code_col` to get the problem id.
 
-3. Finally, we need to provide the path to the file with the actual test cases. We call it the inputs_outputs_basepath. This is a directory with the following structure:
+**Step 3.** Finally, we need to provide the path to the file with the actual test cases. We call it the inputs_outputs_basepath. This is a directory with the following structure:
 ```
 inputs_outputs_basepath/{problem_id}/{inputs, outputs}.txt
 ```
 where `{inputs, outputs}.txt` are the input and output files for the problem with id `problem_id`. The input and output are plain text files. Each program is fed `inputs.txt` and the output is compared with `outputs.txt`.
 
-4. In addition to these, we need to provide some information about the run. Specifically, the number of times each program should be run, the number of programs to evaluate, the timeout, and so on.
+**Step 4.** In addition to these, we need to provide some information about the run. Specifically, the number of times each program should be run, the number of programs to evaluate, the timeout, and so on.
 
 We wrap all of this information is provided in a yaml file `sample_eval_config.yaml`. Here is an example:
 ```yaml
@@ -153,13 +155,13 @@ reference_code_col: "reference_code_col"
 is_prompt_based: false
 cpu_number: 1
 ```
-5. Finally, we can run the evaluation. We provide a script for this: `src/codenet_eval/run_eval.py`. The script takes the yaml file as input. Here is an example:
+**Step 5.** Finally, we can run the evaluation. We provide a script for this: `src/codenet_eval/run_eval.py`. The script takes the yaml file as input. Here is an example:
 
 ```bash
 python src/codenet_eval/run_eval.py --eval_config eval/sample_eval_config.yaml
 ```
 
-6. Baseline Models
+### Baseline Models
 
 To evaluate the performance of FasterPy, we benchmarked it across several representative large language models (LLMs) of different parameter scales:
 
