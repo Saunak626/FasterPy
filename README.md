@@ -1,5 +1,5 @@
 <div align="center">
-  <h1 align="center"><span style="font-family: Roboto;">FasterPy</span>: An LLM-based Code Execution Efficiency Optimization Framework</h1>
+  <h1 align="center"><span style="font-family: Consolas;">FasterPy</span>: An LLM-based Code Execution Efficiency Optimization Framework</h1>
 </div>
 
 
@@ -71,7 +71,7 @@ We provide the script `convert_to_message.py` to convert a dataset containing th
 **3. Evaluation Dataset**
 
 We adopt the official test split of the PIE dataset (Python subset) as the basis for model evaluation.
-It contains fields: `problem\_id`, `slow\_code\_col`, `reference\_code\_col` (manual high-performance solution), and `model\_generated\_potentially\_faster\_code\_col` (an empty field intended to store the model-generated result).
+It contains fields: `problem_id`, `slow_code_col`, `reference_code_col` (manual high-performance solution), and `model_generated_potentially_faster_code_col` (an empty field intended to store the model-generated result).
 
 Notably, we removed any samples exhibiting missing or incompatible packages, runtime errors, or mismatches between the program output and
 the expected results defined by the test cases.
