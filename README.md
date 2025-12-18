@@ -39,11 +39,11 @@ pip install -r requirements.txt
 ### Data Preparation
 **1. Knowledge Base**
 
-We provide the dataset **OD-base.jsonl**, which is required for the optimization suggestions knowledge base, at
+We provide the dataset **OD-base.jsonl**, which serves as the knowledge base used by RAG for code execution efficiency optimization, at
 [this url](https://huggingface.co/datasets/YueWu2/code-opt-knowledge/tree/main).
 
 OD-base.jsonl is derived from two existing public datasets, namely [the Python split of PIE](https://drive.google.com/file/d/1ec8eOWgnBrzy2HlNDlTX6iURwQcIxDXH/view?usp=sharing) and [Mercury](https://huggingface.co/datasets/Elfsong/Mercury).
-Details of the data processing can be found in our paper.
+Details of the data processing can be found in our paper in Section 5.2.
 
 Each line in OD-base.jsonl contains a JSON object with the following fields:
 ```json
