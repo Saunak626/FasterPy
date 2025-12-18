@@ -41,7 +41,11 @@ pip install -r requirements.txt
 
 We provide the dataset **OD-base.jsonl**, which is required for the optimization suggestions knowledge base, at
 [this url](https://huggingface.co/datasets/YueWu2/code-opt-knowledge/tree/main).
-Each file is a jsonl:
+
+OD-base.jsonl is derived from two existing public datasets, namely [the Python split of PIE](https://drive.google.com/file/d/1ec8eOWgnBrzy2HlNDlTX6iURwQcIxDXH/view?usp=sharing) and [Mercury](https://huggingface.co/datasets/Elfsong/Mercury).
+Details of the data processing can be found in our paper.
+
+Each line in OD-base.jsonl contains a JSON object with the following fields:
 ```json
 {
   "input": "(string)the column name for the slow code",
@@ -61,18 +65,20 @@ Run `py dataset/vector_generate.py` to batch embed the code in the `input` field
 
 **2. Train dataset**
 
-We provide the training dataset **train\_data\_msg.jsonl** in the `dataset/train-data` directory for performing low-rank fine-tuning on the LLMs.
+We provide the training dataset **train\_data\_msg.jsonl** in `dataset/train-data` for low-rank fine-tuning of LLMs.
 You can also build it yourself, but please ensure it is in **message** format.
 We provide the script `convert_to_message.py` to convert a dataset containing the `input`, `target`, and `suggestions` fields into **message** format.
 
 **3. Evaluation Dataset**
 
-We adopt the official test split of the PIE dataset (Python subset) as the basis for model evaluation.
-It contains fields: `problem_id`, `slow_code_col`, `reference_code_col` (manual high-performance solution), and `model_generated_potentially_faster_code_col` (an empty field intended to store the model-generated result).
+We adopt the test dataset from [the Python split of the PIE](https://drive.google.com/file/d/1ec8eOWgnBrzy2HlNDlTX6iURwQcIxDXH/view?usp=sharing) as the basis for model evaluation.
 
 Notably, we removed any samples exhibiting missing or incompatible packages, runtime errors, or mismatches between the program output and
 the expected results defined by the test cases.
-After filtering, the evaluation dataset consists of **752 test instances** that can stably run and produce correct outputs under the current environment 
+After filtering, the evaluation dataset consists of **752 test instances** that can stably run and produce correct outputs under the current environment.
+
+The evaluation dataset is provided in this repository at `eval/to_be_eval/pie-test-alright.jsonl`.
+It contains fields: `problem_id`, `slow_code_col`, `reference_code_col` (manual high-performance solution), and `model_generated_potentially_faster_code_col` (an empty field intended to store the model-generated result).
 
 ### Model Fine-tuning
 Use the following command to download the model into the `models` directory:
