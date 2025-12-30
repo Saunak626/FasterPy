@@ -206,7 +206,7 @@ Here we explain each part of this repo.
 @article{Wu2025FasterPy,
   author = {Wu, Yue and Han, Minghao and Li, Ruiyin and Liang, Peng and Tahir, Amjed and Li, Zengyang and Feng, Qiong and Shahin, Mojtaba},
   title = {{FasterPy: An LLM-based Code Execution Efficiency Optimization Framework}},
-  journal={arXiv preprint arXiv:xxxx.xxxxx},
+  journal={arXiv preprint arXiv:2512.22827},
   year={2025}
 }
 ```
