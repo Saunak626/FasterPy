@@ -32,8 +32,10 @@ the framework adaptively enhances large language models (LLMs) for code efficien
 ### Environment Setup
 Follow these steps to set up the environment for <span style="font-family: Consolas;">FasterPy</span>:
 ```shell
-conda create -n fsp python=3.11
+conda create -n fsp python=3.10
 conda activate fsp
+pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu130
+
 pip install -r requirements.txt
 ```
 ### Data Preparation
