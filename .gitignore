@@ -157,3 +157,12 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+
+# datga
+*.jsonl
+
+# models
+models/
+output-src-qw/
+
