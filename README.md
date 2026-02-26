@@ -82,11 +82,11 @@ It contains fields: `problem_id`, `slow_code_col`, `reference_code_col` (manual 
 ### Model Fine-tuning
 Use the following command to download the model into the `models` directory:
 ```shell
-huggingface-cli download --resume-download Qwen/Qwen2.5-7B-Instruct --local-dir /models
+huggingface-cli download Qwen/Qwen2.5-7B-Instruct --local-dir ./models
 ```
 Then run the following command to fine-tune the model:
 ```shell
-py train/train.py
+python train/train.py
 ```
 
 ### Start <span style="font-family: Consolas;">FasterPy</span>

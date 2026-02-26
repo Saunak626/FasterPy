@@ -26,7 +26,10 @@ output_dir="output-src-qw"
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 logger = get_logger()
 seed_everything(42)
-model_id_or_path = "model/Qwen2.5-7B-Instruct"#'Qwen/Qwen2.5-7B-Instruct'  # model_id or model_path
+
+model_id_or_path = "./models"
+
+# model_id_or_path = "model/Qwen2.5-7B-Instruct" #'Qwen/Qwen2.5-7B-Instruct'  # model_id or model_path
 system = 'You are a coder specialized in code efficiency improvement.'
 
 max_length=1024
@@ -42,7 +45,7 @@ lora_alpha = 32
 output_dir = os.path.abspath(os.path.expanduser(output_dir))
 logger.info(f'output_dir: {output_dir}')
 print_gpu_status()
-model, tokenizer = get_model_tokenizer(model_id_or_path)
+model, tokenizer = get_model_tokenizer(model_id_or_path, model_type='qwen2_5')
 print_gpu_status()
 logger.info(f'model_info: {model.model_info}')
 template = get_template(model.model_meta.template, tokenizer, default_system=system, max_length=max_length,truncation_strategy='delete')
@@ -55,7 +58,7 @@ logger.info(f'model: {model}')
 model_parameter_info = get_model_parameter_info(model)
 logger.info(f'model_parameter_info: {model_parameter_info}')
 # dataset
-dataset=["train_data_msg.jsonl"]
+dataset=[os.path.abspath(os.path.join(os.path.dirname(__file__), "../dataset/train-data/train_data_msg.jsonl"))]
 # Download and load the dataset, split it into a training set and a validation set,
 # and encode the text data into tokens.
 train_dataset, val_dataset = load_dataset(dataset, split_dataset_ratio=split_dataset_ratio, num_proc=num_proc,
@@ -96,7 +99,7 @@ logger.info(f"Encoded Train Dataset Size: {dataset_size_bytes / 1024 / 1024:.2f}
 
 learning_rate = 1e-3
 num_train_epochs = 2
-with open('..\config.json', 'r') as file:
+with open(os.path.join(os.path.dirname(__file__), '..', 'config.json'), 'r') as file:
     config = json.load(file)
 SWAN_API = config['SWAN_API']
 try:
