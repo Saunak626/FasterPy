@@ -37,5 +37,7 @@ tzdata==2025.1
 ujson==5.10.0
 unidiff==0.7.5
 urllib3==2.3.0
+pandarallel
 swanlab
 ms-swift
+

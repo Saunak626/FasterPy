@@ -55,7 +55,7 @@ Each line in OD-base.jsonl contains a JSON object with the following fields:
   "vector": "(string)768-dimensional vector representation obtained from embedding the input"
 }
 ```
-After downloading, please place it in the `dataset/knowledge-base` directory.
+After downloading, please place it in the `dataset` directory.
 
 You can also build it yourself.
 Run `py dataset/package.py` to convert a dataset containing the `diff` field into a format suitable for batch summary generation,
@@ -92,11 +92,11 @@ python train/train.py
 ### Start <span style="font-family: Consolas;">FasterPy</span>
 On the first run, execute the following command to import the knowledge base into the vector database:
 ```shell
-py knowledge-base/import_data.py
+python pipeline/import_data.py
 ```
 Run the following command to start <span style="font-family: Consolas;">FasterPy</span>:
 ```shell
-py pipeline/main.py [-modelpath ./my_model]
+python pipeline/main.py [-modelpath ./my_model]
 ```
 
 For easier evaluation, we provide the script `generate.py` for batch generation of optimized code.

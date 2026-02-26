@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from knowledge.knowledge_base import KnowledgeBase
 import pandas as pd
 import ast
@@ -5,7 +8,9 @@ from tqdm import tqdm
 tqdm.pandas()
 from pandarallel import pandarallel
 pandarallel.initialize(progress_bar=True)
-df = pd.read_json("../dataset/knowlegde-base/OD-base.jsonl",lines=True)
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_DATA_PATH = os.path.join(_PROJECT_ROOT, "dataset", "OD-base.jsonl")
+df = pd.read_json(_DATA_PATH, lines=True)
 print(df.shape)
 print(df.loc[1,:])
 df['src_code_len'] = df.parallel_apply(lambda row: len(row['input'].splitlines()), axis=1)

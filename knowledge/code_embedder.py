@@ -1,11 +1,16 @@
 # This file is for the code to vector function
 import torch
+import os
 from .unixcoder import UniXcoder
 import torch.nn.functional as F
 import numpy as np
 
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_LOCAL_MODEL_PATH = os.path.join(_PROJECT_ROOT, "models", "unixcoder-base")
+_DEFAULT_MODEL = _LOCAL_MODEL_PATH if os.path.isdir(_LOCAL_MODEL_PATH) else "microsoft/unixcoder-base"
+
 class CodeEmbedder:
-    def __init__(self, model_name:str = "./unixcoder-base"):
+    def __init__(self, model_name:str = _DEFAULT_MODEL):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = UniXcoder(model_name)
         self.model.to(self.device)

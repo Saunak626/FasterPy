@@ -161,6 +161,7 @@ cython_debug/
 
 # datga
 *.jsonl
+*.db
 
 # models
 models/
