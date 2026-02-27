@@ -9,12 +9,37 @@ from pygments.util import ClassNotFound
 import ast
 from tqdm import tqdm
 import torch
+
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# 第一步：加载 LoRA 的配置
-peft_model_path = "output-src-qw/checkpoint-1112"
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+
+
+def _resolve_latest_checkpoint(base_dir: str) -> str:
+    if not os.path.isdir(base_dir):
+        raise FileNotFoundError(f"LoRA 输出目录不存在: {base_dir}")
+
+    candidates = []
+    for name in os.listdir(base_dir):
+        path = os.path.join(base_dir, name)
+        if os.path.isdir(path) and name.startswith("checkpoint-"):
+            suffix = name.split("checkpoint-")[-1]
+            if suffix.isdigit():
+                candidates.append((int(suffix), path))
+    if not candidates:
+        raise FileNotFoundError(f"未找到 checkpoint 目录: {base_dir}/checkpoint-*")
+    return max(candidates, key=lambda item: item[0])[1]
+
+
+# 第一步：自动选择最新 LoRA checkpoint（本地路径，避免误走 HuggingFace Hub）
+peft_output_dir = os.path.normpath(os.path.abspath(os.path.join(_script_dir, "..", "output-src-qw")))
+peft_model_path = _resolve_latest_checkpoint(peft_output_dir)
 config = PeftConfig.from_pretrained(peft_model_path)
-model_id="model/Qwen2.5-7B-Instruct"
+
+# 第二步：加载基础模型（与 train.py 保持一致，使用本地 models 目录）
+model_id = os.path.normpath(os.path.abspath(os.path.join(_script_dir, "..", "models")))
+if not os.path.isdir(model_id):
+    raise FileNotFoundError(f"基础模型目录不存在: {model_id}")
 # 第二步：加载基础模型（LoRA 是在这个模型上微调的）
 base_model = AutoModelForCausalLM.from_pretrained(
     model_id,  # 原始模型
@@ -62,8 +87,14 @@ def extract_code(text: list):
     return text
 
 
-# 读取数据
-df = pd.read_json("test-sug.jsonl",lines=True)
+# 读取数据（显式文件路径，避免 pandas 将字符串当作文本解析；优先项目根，否则 eval/to_be_eval）
+_test_jsonl = os.path.normpath(os.path.join(_script_dir, "..", "test-sug.jsonl"))
+if not os.path.isfile(_test_jsonl):
+    _test_jsonl = os.path.normpath(os.path.join(_script_dir, "..", "eval", "to_be_eval", "test-sug.jsonl"))
+if not os.path.isfile(_test_jsonl):
+    raise FileNotFoundError(f"未找到 test-sug.jsonl，请放在项目根或 eval/to_be_eval/")
+with open(_test_jsonl, "r", encoding="utf-8") as f:
+    df = pd.read_json(f, lines=True)
 print(df.shape)
 
 input_template = Template("Input code:\n$input\nSuggestions:\n$suggestions\nOutput: ```python\n {{optimized code}} \n``` <|EOS|>")

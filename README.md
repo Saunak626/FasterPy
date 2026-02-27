@@ -112,7 +112,7 @@ Prepare a jsonl file in the following format:
 
 Then run the following command to perform batch generation:
 ```
-py train/generate.py
+python train/generate.py
 ```
 The generated optimized code will be filled into the `model_generated_potentially_faster_code_col` field.
 
