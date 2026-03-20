@@ -443,12 +443,16 @@ def mean_std(df, col) -> str:
     mean_col = f"{col}_mean"
     std_col = f"{col}_std"
     if mean_col not in df.columns or std_col not in df.columns:
+        if col not in df.columns:
+            return "N/A"
         return f"{df[col].mean():.4f} ± {df[col].std():.4f}"
 
     return f"{df[mean_col].mean():.4f} ± {df[std_col].mean():.4f}"
 
 
 def get_anomalies(run_metrics):
+    if "cpu_time_v0" not in run_metrics.columns or "cpu_time_v1" not in run_metrics.columns:
+        return run_metrics.iloc[0:0]
     run_metrics["codenet_reported_rel_improvement"] = (
         run_metrics["cpu_time_v0"] - run_metrics["cpu_time_v1"]
     ) / run_metrics["cpu_time_v0"]

@@ -81,11 +81,7 @@ class UniXcoder(nn.Module):
         """ Obtain token embeddings and sentence embeddings """
         mask = source_ids.ne(self.config.pad_token_id)
         token_embeddings = self.model(source_ids,attention_mask = mask.unsqueeze(1) * mask.unsqueeze(2))[0]
-        print(token_embeddings.shape)
-        print(mask.sum(-1).unsqueeze(-1).shape)
-        print(mask.sum(-1))
         sentence_embeddings = (token_embeddings * mask.unsqueeze(-1)).sum(1) / mask.sum(-1).unsqueeze(-1)
-        print(sentence_embeddings.shape)
         return token_embeddings, sentence_embeddings       
 
     def generate(self, source_ids, decoder_only = True, eos_id = None, beam_size = 5, max_length = 64):
